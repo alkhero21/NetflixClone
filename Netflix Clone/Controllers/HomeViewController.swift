@@ -32,6 +32,8 @@ class HomeViewController: UIViewController {
         
         configureNavbar()
         
+        getTrendingMovies()
+        
     }
     
     private func configureNavbar() {
@@ -53,6 +55,21 @@ class HomeViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         homeFeedTable.frame = view.bounds
+    }
+    
+    private func getTrendingMovies() {
+        
+        APICaller.shared.getTrendingMovies { results in
+            
+            switch results {
+            case .success(let movies):
+                print(movies)
+                
+            case .failure(let error):
+                print(error)
+            }
+            
+        }
     }
 
 }
@@ -87,7 +104,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         guard let header = view as? UITableViewHeaderFooterView else {return}
         header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
         header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 20, y: header.bounds.origin.y, width: 100, height: header.bounds.height)
-        header.textLabel?.textColor = .white
+        header.textLabel?.textColor = .black
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
